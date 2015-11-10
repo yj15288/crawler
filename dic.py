@@ -6,9 +6,11 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet as wn
 
-dirs = os.listdir('./pages/html/')
+dirs = os.listdir('./ori_text/')
+dictionary = open('dictionary.txt','w')
+dic = {}
 for f in dirs:
-    query = open('./pages/html/'+f,'r').read()
+    query = open('./ori_text/'+f,'r').read()
     print"open ---> " + f
     #query = open("2-Detective: \'Hero\' cop sought hit-man to cover up thefts - Yahoo News.txt","r").read()
     query1 = str.lower(query)
@@ -62,21 +64,23 @@ for f in dirs:
         changed = changed + ' '+ WordNetLemmatizer().lemmatize(tag[0],wn_tag)
     print"handle tags end ---> " + f
      
-    allterm ={}
-    dic = {}
+    allterm = {}
     changed1 = changed.split()
-    resltname = './pages/stemming/'+'_'+f
+    resltname = './classed_text/'+'_'+f
     result = open(resltname,"w")
     fdist = nltk.FreqDist(changed1)
-
+    
+    #print "check localkey loop:"
     for localkey in fdist.keys():
-        #localkey =  
-        if localkey not in dic.keys()
-            dic[localkey] = 1
-        else
+      #  print localkey
+        if localkey in dic.keys():
             dic[localkey] = dic[localkey]+1
+        else:
+            dic[localkey] = 1
         allterm[localkey] = fdist[localkey]
     print"write ---> " + f
-    result.write(str(sorted(dictionary.items(), key = lambda x:x[1] ,reverse = True)))
+    result.write(str(sorted(allterm.items(), key = lambda x:x[1] ,reverse = True)))
+
+dictionary.write(str(sorted(dic.items(),key = lambda x:x[1] ,reverse = True)))
 
 
